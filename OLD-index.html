@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OLD-Psychic Game</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+
+</head>
+
+<body>
+
+<h1>OLD-The Psychic Game</h1>
+
+	<script>
+
+	var psychic = {
+		win: 0,
+		losses: 0,
+		guessLeft: 5,
+		totalGuess: 0,
+		lastKeyPressed: null,
+
+		updateTotalsWin: function () {
+			win=this.win+1;
+			guessLeft=this.guessLeft-1;
+			totalGuess=this.totalGuess+1;
+			console.log(win);
+			console.log(guessLeft);
+			console.log(totalGuess);
+			console.log("+++++++++++");
+		},
+
+		updateTotalsLose: function() {
+			losses=this.losses+1;
+			guessLeft=this.guessLeft-1;
+			totalGuess=this.totalGuess+1;
+			console.log(losses);
+			console.log(guessLeft);
+			console.log(totalGuess);
+			console.log("------------");
+		},
+
+	};
+
+	var randomString = function(length) {
+	    var text = "";
+	    var possible = "abcdefghijklmnopqrstuvwxyz";
+	    for(var i = 0; i < length; i++) {
+	        text += possible.charAt(Math.floor(Math.random() * possible.length));
+	    }
+	    return text;
+	}	
+
+	document.onkeyup=function(e) {
+		console.log("User input is: "  + e.key);
+
+		psychic.lastKeyPressed = e.key;
+	}
+	
+	for (var i = 0; i <= psychic.guessLeft; i++) {
+	    
+		console.log("before keypress i = " + i);
+
+
+		var rs = randomString(1);
+		console.log ("Computer Input Is: " + rs);
+		console.log("==========");
+
+		if (psychic.lastKeyPressed === rs) {
+			psychic.updateTotalsWin();
+		} else {
+			psychic .updateTotalsLose();
+		}
+		console.log("after keypress i = " + i);
+		rewriteStats();
+	};
+
+		function rewriteStats() {
+			console.log("Win = " + psychic.win);
+			console.log("Losses = " + psychic.losses);
+			console.log("Guess Remaining = " + psychic.guessLeft);
+			console.log("Total Guesses = " + totalGuess);
+			console.log("End of function rewriteStats");
+		};
+
+
+	</script>
+
+	
+
+</body>
+</html>
