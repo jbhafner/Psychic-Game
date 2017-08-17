@@ -22,6 +22,8 @@
 
 	};
 
+	console.log ("Result of defining object below");
+	rewriteStats()
 
 // Define Functions 
 
@@ -35,53 +37,65 @@
 	}	
 
 	function rewriteStats() {
-		console.log("Win = " + psychic.win);
-		console.log("Losses = " + psychic.losses);
-		console.log("Guess Remaining = " + psychic.guessLeft);
-		console.log("Total Guesses = " + psychic.totalGuess);
-		console.log("Selected Characters = " + psychic.selectedCharacters);
-		console.log("///// End of function rewriteStats /////");
+		console.log(" /// Win = " + psychic.win + ", Losses = " + psychic.losses + ", Guess Remaining = " + psychic.guessLeft + ", Total Guess " + psychic.totalGuess + ", Selected Characters = " + psychic.selectedCharacters + ", User input is: "  + psychic.lastKeyPressed + ", Computer Input Is: " + rs + " ///");
+		// console.log("Losses = " + psychic.losses);
+		// console.log("Guess Remaining = " + psychic.guessLeft);
+		// console.log("Total Guesses = " + psychic.totalGuess);
+		// console.log("Selected Characters = " + psychic.selectedCharacters);
+		// console.log("User input is: "  +psychic.lastKeyPressed);
+		// console.log("Computer Input Is: " + rs);
+		// console.log("///// End of function rewriteStats /////");
 	}
-
-	function resetGame() {
-		psychic.guessLeft = 5;
-		psychic.totalGuess = 0;
-		psychic.lastKeyPressed = null;
-		psychic.selectedCharacters = [];
-	}
-
-
 // Program Logic
 
-	if (psychic.guessLeft > 0) {
-		console.log ("TG = " + psychic.totalGuess + " Guess Left = " + psychic.guessLeft)
+		// Generate computer number
+
 		var rs = randomString(1);
 
+		// listen for onkeyup event
+
 		document.onkeyup=function(e) {
-			console.log("User input is: "  + e.key);
+
+
 			psychic.lastKeyPressed = e.key;
 			psychic.selectedCharacters.push(e.key);
-			psychic.guessLeft = psychic.guessLeft - 1;
-			psychic.totalGuess = psychic.totalGuess + 1;
-			console.log ("Computer Input Is: " + rs);
-			console.log("==========");	
+
+			psychic.guessLeft--;
+			console.log("--- Guess left: " + psychic.guessLeft + " ---");
+			psychic.totalGuess++;
+
+			// If user guesses the letter and wins
+			if (psychic.lastKeyPressed === rs) {
+				console.log("You win!");
+				psychic.win++;
+				psychic.guessLeft = 5;
+				console.log("--- Guess left: " + psychic.guessLeft + " ---");
+				psychic.totalGuess = 0;
+				psychic.selectedCharacters = [];
+				rs=randomString(1);
+			}
+
+			// If user reaches maximum guesses and loses
+			if (psychic.guessLeft == 0) {
+				console.log("You Lost :-(");
+				psychic.losses++;
+				psychic.guessLeft=5;
+				psychic.totalGuess=0;
+				psychic.selectedCharacters=[];
+				rs=randomString(1);
+			}
+
+			// Write results to index.html
+			var html = "<p><h1>The Psychic Game</h1></p>" + 
+			"<p><h4>Guess what letter I\'m thinking of</h4></p>" + 
+			"<p><h4>Wins: " + psychic.win + 
+			"</h4></p>" + "<p><h4>Losses: " + psychic.losses + 
+			"</h4></p>" + "<p><h4>Guesses Left: " + psychic.guessLeft + 
+			"</h4></p>" + "<p><h4>Your guesses so far: " + psychic.selectedCharacters + "</h4></p>";
+			// place html into the game ID
+			document.querySelector("#game").innerHTML = html;
 			rewriteStats();
-			if (psychic.guessLeft > 0) {
-				return;
-				resetGame;
-			}		
 		};
-
-	} else {
-		// return;
-		resetGame();
-	}
-
-		// if (psychic.lastKeyPressed === rs) {
-		// 	psychic.updateTotalsWin();
-		// } else {
-		// 	psychic .updateTotalsLose();
-		// }
 
 
 
